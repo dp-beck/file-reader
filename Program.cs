@@ -1,28 +1,24 @@
-﻿// Reads one file
+﻿using file_reader;
 
-try
+var fileReader = new FileReader();
+
+string? folderPath = "";
+while (string.IsNullOrEmpty(folderPath))
 {
-    //Pass the file path and file name to the StreamReader constructor
-    StreamReader sr = new StreamReader("/Users/danielbeck/repos/file-reader/sample.txt");
-    //Read the first line of text
-    var line = sr.ReadLine();
-    //Continue to read until you reach end of file
-    while (line != null)
-    {
-        //write the line to console window
-        Console.WriteLine(line);
-        //Read the next line
-        line = sr.ReadLine();
-    }
-    //close the file
-    sr.Close();
-    Console.ReadLine();
+    Console.WriteLine("Enter the folder path for the folder files you want to read:");
+    folderPath = Console.ReadLine();    
 }
-catch(Exception e)
+
+string? fileFilter = "";
+while (string.IsNullOrEmpty(fileFilter))
 {
-    Console.WriteLine("Exception: " + e.Message);
+    Console.WriteLine("Enter the string to filter the files by:");
+    fileFilter = Console.ReadLine();    
 }
-finally
-{
-    Console.WriteLine("Executing finally block.");
-}
+
+
+var files = fileReader.ReadFilteredTextFilesInFolder(folderPath, fileFilter);
+
+fileReader.SaveToFile(folderPath + "result.txt", files);
+
+Console.WriteLine("done, check file result.txt in folder");
